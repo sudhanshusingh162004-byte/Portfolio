@@ -1,6 +1,6 @@
 const cursorLabel = document.querySelector(".cursor-label");
-const workRows = document.querySelectorAll(".work-row");
-const revealItems = document.querySelectorAll(".section-head, .work-row, .case-intro, .case-writing, .metrics, .archive article, .about-body, .contact-links, .project-nav");
+const hoverTargets = document.querySelectorAll("[data-cursor]");
+const revealTargets = document.querySelectorAll(".section-head, .story-band h2, .featured-project h2, .principles h2, .experience h2, .about h2, .contact h2");
 
 if (cursorLabel && window.matchMedia("(pointer: fine)").matches) {
   window.addEventListener("pointermove", (event) => {
@@ -8,20 +8,20 @@ if (cursorLabel && window.matchMedia("(pointer: fine)").matches) {
     cursorLabel.style.top = `${event.clientY}px`;
   });
 
-  workRows.forEach((row) => {
-    row.addEventListener("mouseenter", () => {
-      cursorLabel.textContent = row.dataset.cursor || "View";
+  hoverTargets.forEach((target) => {
+    target.addEventListener("mouseenter", () => {
+      cursorLabel.textContent = target.dataset.cursor || "View";
       cursorLabel.classList.add("is-visible");
     });
 
-    row.addEventListener("mouseleave", () => {
+    target.addEventListener("mouseleave", () => {
       cursorLabel.classList.remove("is-visible");
     });
   });
 }
 
 if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
-  revealItems.forEach((item) => item.classList.add("reveal"));
+  revealTargets.forEach((target) => target.classList.add("reveal-target"));
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -32,8 +32,8 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "Intersect
         }
       });
     },
-    { threshold: 0.12 }
+    { threshold: 0.18 }
   );
 
-  revealItems.forEach((item) => observer.observe(item));
+  revealTargets.forEach((target) => observer.observe(target));
 }
