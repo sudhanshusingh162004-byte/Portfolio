@@ -26,13 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Inject cursor text
-if (cursor) {
-  const cursorText = document.createElement('div');
-  cursorText.className = 'cursor-text';
-  cursorText.textContent = 'View';
-  cursor.appendChild(cursorText);
-}
 
 // Loader Logic
 if (loader) {
@@ -140,12 +133,22 @@ function initHeroAnimations() {
   if (typeof gsap !== 'undefined') {
     // Section head (inner page hero) - fade up stagger
     const sectionHead = document.querySelector('.section-head');
+    const firstCard = document.querySelector('.project-card');
     if (sectionHead) {
       const label = sectionHead.querySelector('.section-label');
       const heading = sectionHead.querySelector('h1');
       const tl = gsap.timeline({ delay: 0.1 });
       if (label) tl.from(label, { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out' });
       if (heading) tl.from(heading, { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4');
+      if (firstCard) {
+        firstCard.classList.remove('fade-in');
+        const media = firstCard.querySelector('.project-media');
+        const copy = firstCard.querySelector('.project-copy');
+        const tags = firstCard.querySelector('.project-tags');
+        if (media) tl.from(media, { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.5');
+        if (copy) tl.from(copy, { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5');
+        if (tags) tl.from(tags, { y: 15, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3');
+      }
     }
   }
 
@@ -180,6 +183,11 @@ function initHeroAnimations() {
       });
     });
   }
+  
+  // Begin observing scroll elements only after hero animations have started
+  if (typeof initScrollAnimations === 'function') {
+    setTimeout(initScrollAnimations, 400);
+  }
 }
 
 // Cursor and Interactions
@@ -203,7 +211,7 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
   // General hovering
   const interactiveSelector = "a, button, [role='button']";
   document.addEventListener("mouseover", (event) => {
-    if (event.target.closest(interactiveSelector) && !event.target.closest('.project-card')) {
+    if (event.target.closest(interactiveSelector) && !event.target.closest('.media-placeholder')) {
       cursor.classList.add("is-hovering");
     }
   });
@@ -214,7 +222,7 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
   });
 
   // Project Card Hover (Morphing)
-  const projectCards = document.querySelectorAll('.project-card');
+  const projectCards = document.querySelectorAll('.media-placeholder');
   projectCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
       cursor.classList.add('is-viewing');
@@ -314,22 +322,36 @@ document.querySelectorAll('.footer-col a').forEach(link => {
   });
 });
 
-// Fade-in on Scroll Observer (universal)
-if ("IntersectionObserver" in window) {
-  const fadeTargets = document.querySelectorAll(
-    '.project-card, .footer-col, .sui-footer-top, .section-head, .principle-grid article, .experience-list article, .about-body, .case-intro, .case-writing article, .archive article'
-  );
-  fadeTargets.forEach(el => el.classList.add('fade-in'));
-  
-  const fadeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        fadeObserver.unobserve(entry.target);
+// Fade-in on Scroll Observer (CSS class toggle)
+const FADE_SELECTOR = '.project-card, .footer-col, .sui-footer-top, .section-head, .principle-grid article, .experience-list article, .about-body, .case-intro, .case-writing article, .archive article';
+
+// Add .fade-in immediately so elements are hidden from the start
+document.querySelectorAll(FADE_SELECTOR).forEach(el => el.classList.add('fade-in'));
+
+function initScrollAnimations() {
+  if ('IntersectionObserver' in window) {
+    const fadeTargets = document.querySelectorAll(FADE_SELECTOR);
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -150px 0px' });
+
+    fadeTargets.forEach((el, i) => {
+      // Skip first project card — it's handled by the hero timeline
+      if (i === 0 && el.classList.contains('project-card')) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('is-visible');
+      } else {
+        fadeObserver.observe(el);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-  fadeTargets.forEach(el => fadeObserver.observe(el));
+  }
 }
 
 // Original Reveal Targets (IntersectionObserver)
