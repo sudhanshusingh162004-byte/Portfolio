@@ -5,14 +5,59 @@ const interactiveSelector = "a, button, [role='button'], .project-card";
 const revealTargets = document.querySelectorAll(".section-head, .principles h1, .experience h2, .about h1, .contact h2");
 const countTargets = document.querySelectorAll(".count-up");
 
-if (document.querySelector(".page-loader")) {
-  if (sessionStorage.getItem("portfolio-loader-seen") === "true") {
+const loader = document.querySelector(".page-loader");
+
+if (loader) {
+  const countValue = loader.querySelector(".loader-count-value");
+  const duration = 4000;
+  const cubicBezier = (x1, y1, x2, y2) => (progress) => {
+    let start = 0;
+    let end = 1;
+    let t = progress;
+
+    for (let i = 0; i < 8; i += 1) {
+      t = (start + end) / 2;
+      const inv = 1 - t;
+      const x = 3 * inv * inv * t * x1 + 3 * inv * t * t * x2 + t * t * t;
+
+      if (x < progress) {
+        start = t;
+      } else {
+        end = t;
+      }
+    }
+
+    const inv = 1 - t;
+    return 3 * inv * inv * t * y1 + 3 * inv * t * t * y2 + t * t * t;
+  };
+  const loaderEase = cubicBezier(0.25, 0.1, 0.1, 1);
+  let loaderStart;
+
+  const animateLoader = (timestamp) => {
+    if (!loaderStart) {
+      loaderStart = timestamp;
+    }
+
+    const rawProgress = Math.min((timestamp - loaderStart) / duration, 1);
+    const easedProgress = Math.min(loaderEase(rawProgress), 1);
+    const percent = Math.round(easedProgress * 100);
+
+    if (countValue) {
+      countValue.textContent = percent;
+    }
+
+    loader.style.setProperty("--loader-progress", easedProgress);
+
+    if (rawProgress < 1) {
+      requestAnimationFrame(animateLoader);
+    }
+  };
+
+  requestAnimationFrame(animateLoader);
+
+  window.setTimeout(() => {
     document.body.classList.add("has-loaded-before");
-  } else {
-    window.setTimeout(() => {
-      sessionStorage.setItem("portfolio-loader-seen", "true");
-    }, 1900);
-  }
+  }, 5300);
 }
 
 document.querySelectorAll("[data-nav]").forEach((link) => {
