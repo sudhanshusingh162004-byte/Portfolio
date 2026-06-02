@@ -13,19 +13,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body data-page="home">
+    <div class="page-loader" aria-hidden="true">
+      <span>S</span><span>S</span>
+    </div>
+    <div class="custom-cursor" aria-hidden="true">
+      <svg viewBox="0 0 32 32">
+        <path d="M7 5 25 23M7 5h13M7 5v13" />
+        <circle cx="7" cy="5" r="2.7" />
+      </svg>
+    </div>
+
     <header class="site-header">
-      <a class="brand" href="#top">Sudhanshu Singh</a>
+      <a class="brand" href="/">Sudhanshu Singh</a>
       <nav class="nav" aria-label="Primary navigation">
-        <a href="#work">Work</a>
-        <a href="#thinking">Thinking</a>
-        <a href="#about">About</a>
-        <a href="mailto:sudhanshusingh162004@gmail.com">Mail</a>
+        <a href="/" data-nav="home">Home</a>
+        <a href="/work/" data-nav="work">Work</a>
+        <a href="/thinking/" data-nav="thinking">Thinking</a>
+        <a href="/about/" data-nav="about">About</a>
       </nav>
     </header>
 
-    <main id="top">
-      <section class="hero" aria-labelledby="hero-title">
+    <main id="top" class="page-shell">
+      <section class="hero hero-home" aria-labelledby="hero-title">
         <div class="meta-grid">
           <p>Interaction Designer</p>
           <p>Product Thinking / Motion Craft</p>
@@ -39,237 +49,19 @@
             <span class="title-line">experiences with moments</span>
             <span class="title-line">that <em>feel right.</em></span>
           </h1>
+          <div class="hero-rule" aria-hidden="true"></div>
           <p>I design product interfaces by thinking through behavior first, then tuning the small moments that make the next action feel obvious.</p>
-        </div>
-
-        <div class="hero-footer">
-          <a href="#work">Selected work</a>
-          <span>Scroll</span>
-        </div>
-      </section>
-
-      <section class="story-band alt-section" aria-labelledby="story-title">
-        <p class="section-label">01 / Position</p>
-        <div>
-          <h2 id="story-title">I’m not trying to make interfaces louder. I’m trying to make them <em>behave better.</em></h2>
-          <p>The work sits between product logic and interaction feel: flows, states, transitions, hierarchy, and feedback.</p>
-        </div>
-      </section>
-
-      <section id="work" class="work" aria-labelledby="work-title">
-        <div class="section-head">
-          <p class="section-label">02 / Selected Work</p>
-          <h2 id="work-title">Projects as proof of product thinking.</h2>
-        </div>
-
-        <div class="project-stack">
-          <a class="project-card" href="work/waysorted/" data-cursor="Open">
-            <div class="project-copy">
-              <span class="project-index">01</span>
-              <h3>Waysorted</h3>
-              <p>A live Figma plugin that unifies the designer's workflow. CPO.</p>
-              <div class="project-tags" aria-label="Project tags">
-                <span>2024-25</span>
-                <span>Product Design</span>
-                <span>Live</span>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="media-placeholder"><span>Waysorted</span></div>
-              <p>← mockup / video coming soon</p>
-            </div>
-            <span class="view-label">View project →</span>
-          </a>
-
-          <a class="project-card" href="work/mazout-electric/" data-cursor="Open">
-            <div class="project-copy">
-              <span class="project-index">02</span>
-              <h3>Mazout Electric</h3>
-              <p>Designed the mobile app and website for an EV startup.</p>
-              <div class="project-tags" aria-label="Project tags">
-                <span>2024</span>
-                <span>Product Design</span>
-                <span>Client Work</span>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="media-placeholder"><span>Mazout Electric</span></div>
-              <p>← mockup / video coming soon</p>
-            </div>
-            <span class="view-label">View project →</span>
-          </a>
-
-          <a class="project-card" href="work/solace/" data-cursor="Open">
-            <div class="project-copy">
-              <span class="project-index">03</span>
-              <h3>Solace</h3>
-              <p>A 3D calming experience designed in Spline.</p>
-              <div class="project-tags" aria-label="Project tags">
-                <span>2024</span>
-                <span>UX</span>
-                <span>Spline</span>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="media-placeholder"><span>Solace</span></div>
-              <p>← mockup / video coming soon</p>
-            </div>
-            <span class="view-label">View project →</span>
-          </a>
-
-          <a class="project-card" href="work/airpods-pro-film/" data-cursor="Open">
-            <div class="project-copy">
-              <span class="project-index">04</span>
-              <h3>AirPods Pro</h3>
-              <p>Motion design piece exploring product interaction.</p>
-              <div class="project-tags" aria-label="Project tags">
-                <span>2023</span>
-                <span>Motion Design</span>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="media-placeholder"><span>AirPods Pro</span></div>
-              <p>← mockup / video coming soon</p>
-            </div>
-            <span class="view-label">View project →</span>
-          </a>
-
-          <a class="project-card" href="work/daylign/" data-cursor="Open">
-            <div class="project-copy">
-              <span class="project-index">05</span>
-              <h3>Daylign</h3>
-              <p>iOS app tracking tasks through Dynamic Island. Built with Claude Code.</p>
-              <div class="project-tags" aria-label="Project tags">
-                <span>2025</span>
-                <span>Product</span>
-                <span>In Progress</span>
-              </div>
-            </div>
-            <div class="project-media">
-              <div class="media-placeholder"><span>Daylign</span></div>
-              <p>← mockup / video coming soon</p>
-            </div>
-            <span class="view-label">View project →</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="featured-project alt-section" aria-labelledby="feature-title">
-        <p class="section-label">03 / Featured Case</p>
-        <div class="feature-copy">
-          <h2 id="feature-title">Waysorted is where the portfolio becomes product-first.</h2>
-          <p>The challenge was making a complex workspace feel legible: what is active, what changed, and what needs attention.</p>
-          <a href="work/waysorted/">Read the case study</a>
-        </div>
-        <div class="feature-grid" aria-label="Waysorted design principles">
-          <article>
-            <span>State</span>
-            <p>Show what the agent is doing without making the interface noisy.</p>
-          </article>
-          <article>
-            <span>Disclosure</span>
-            <p>Reveal complexity only when the user is ready to inspect it.</p>
-          </article>
-          <article>
-            <span>Motion</span>
-            <p>Use transitions as explanation, not decoration.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="thinking" class="principles" aria-labelledby="thinking-title">
-        <div class="section-head">
-          <p class="section-label">04 / How I Think</p>
-          <h2 id="thinking-title">I design the parts people notice only when they go wrong.</h2>
-        </div>
-
-        <div class="principle-grid">
-          <article>
-            <span>Behavior before screens</span>
-            <p>I start with what the product needs to do, then shape the interface around it.</p>
-          </article>
-          <article>
-            <span>Motion as feedback</span>
-            <p>Motion should explain state, direction, and consequence.</p>
-          </article>
-          <article>
-            <span>Controlled complexity</span>
-            <p>Good systems are clear about when detail should appear.</p>
-          </article>
-          <article>
-            <span>Micro-moments matter</span>
-            <p>Loading, confirmation, recovery, and transitions decide how a product feels.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="experience alt-section" aria-labelledby="experience-title">
-        <p class="section-label">05 / Signal</p>
-        <div>
-          <h2 id="experience-title">A product-minded design practice, shaped across teams and contexts.</h2>
-          <div class="experience-list">
-            <article>
-              <span>2025 - Present</span>
-              <strong>Waysorted</strong>
-              <p>Product strategy, UX, systems, and motion for an AI workflow product.</p>
-            </article>
-            <article>
-              <span>2024</span>
-              <strong>Mazout Electric</strong>
-              <p>Mobile app interface from scratch and visual identity direction.</p>
-            </article>
-            <article>
-              <span>2025</span>
-              <strong>Gen AI Summit</strong>
-              <p>Creative leadership across digital, print, stage, and motion assets.</p>
-            </article>
+          <div class="hero-ctas">
+            <a href="/work/">View Work →</a>
+            <a href="/thinking/">See how I think →</a>
           </div>
         </div>
-      </section>
 
-      <section id="about" class="about" aria-labelledby="about-title">
-        <div class="section-head">
-          <p class="section-label">06 / About</p>
-          <h2 id="about-title">Interaction designer with product thinking and a feel for <em>small moments.</em></h2>
-        </div>
-
-        <div class="about-body">
-          <p>I’m studying Interaction Design while working across real product and design contexts. I care about interfaces tuned in the details.</p>
-          <ul class="skills" aria-label="Skills">
-            <li>User Research</li>
-            <li>Interaction Design</li>
-            <li>UI/UX</li>
-            <li>Product Thinking</li>
-            <li>Information Architecture</li>
-            <li>Prototyping</li>
-            <li>Motion Craft</li>
-            <li>Figma</li>
-            <li>After Effects</li>
-            <li>Rive</li>
-            <li>Spline</li>
-            <li>Blender</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="contact alt-section" aria-labelledby="contact-title">
-        <p class="section-label">07 / Contact</p>
-        <div>
-          <h2 id="contact-title">Looking for a product-first interaction designer?</h2>
-          <p>Currently open to full-time roles and PPO internships.</p>
-          <div class="contact-links">
-            <a href="mailto:sudhanshusingh162004@gmail.com">Email</a>
-            <a href="https://www.linkedin.com/in/sudhanshu-singh-34843b249">LinkedIn</a>
-            <a href="assets/Sudhanshu-Singh-Resume.pdf">Resume</a>
-          </div>
+        <div class="orbit-note" aria-hidden="true">
+          <span>Interaction Design · Product · Motion ·</span>
         </div>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <span>Sudhanshu Singh</span>
-      <span>Interaction / Product / Motion Craft</span>
-    </footer>
 
     <script src="script.js"></script>
   </body>
