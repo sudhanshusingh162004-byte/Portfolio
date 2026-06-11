@@ -4,7 +4,20 @@ const activePage = document.body.dataset.page;
 const countTargets = document.querySelectorAll(".count-up");
 const loader = document.querySelector(".page-loader");
 
-
+// ── Theme Toggle ──
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    // Trigger spin animation
+    themeToggle.classList.add('is-switching');
+    setTimeout(() => {
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('sui-theme', isDark ? 'light' : 'dark');
+    }, 220); // swap icons halfway through spin
+    setTimeout(() => themeToggle.classList.remove('is-switching'), 460);
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const pageLoader = document.querySelector('.page-loader');
