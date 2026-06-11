@@ -149,7 +149,7 @@
         50%      { opacity: 0; }
       }
 
-      /* ── Principles grid ── */
+      /* ── Principles — editorial row layout ── */
       .thinking-principles {
         max-width: var(--max);
         margin: 0 auto;
@@ -162,84 +162,98 @@
         opacity: 0.4;
         margin-bottom: clamp(32px, 5vw, 56px);
         display: block;
-        text-align: center;
+        text-align: left;
         color: var(--ink);
       }
       .principle-cards {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2px;
-      }
-      @media (max-width: 680px) {
-        .principle-cards { grid-template-columns: 1fr; }
+        display: flex;
+        flex-direction: column;
+        gap: 0;
       }
       .principle-card {
-        padding: clamp(28px, 4vw, 48px);
-        background: transparent;
-        border: 1px solid var(--line);
-        cursor: crosshair;
-        transition: background 0.3s ease, transform 0.3s ease;
         position: relative;
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        align-items: center;
+        padding: clamp(36px, 5vw, 68px) 0;
+        border-top: 1px solid var(--line);
         overflow: hidden;
+        cursor: crosshair;
+        background: transparent;
+        transition: background 0.4s ease;
       }
-      .principle-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: var(--accent);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 0;
-      }
-      .principle-card:hover::before {
-        opacity: 0.04;
-      }
-      .principle-card:hover {
-        transform: translateY(-2px);
-        animation: card-border-glitch 0.6s steps(1) forwards;
-      }
-      @keyframes card-border-glitch {
-        0%   { border-color: var(--accent); }
-        14%  { border-color: var(--line); }
-        28%  { border-color: var(--accent); }
-        42%  { border-color: var(--line); }
-        57%  { border-color: #c0392b; }
-        71%  { border-color: var(--accent); }
-        85%  { border-color: var(--line); }
-        100% { border-color: var(--accent); }
-      }
-      .principle-num {
-        font-size: 10px;
-        letter-spacing: 0.15em;
+      .principle-card:last-child { border-bottom: 1px solid var(--line); }
+      .principle-card:hover { background: transparent; transform: none; animation: none; }
+      .principle-card::before { display: none; }
+
+      .card-index {
+        font-size: 11px;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        opacity: 0.3;
-        display: block;
-        margin-bottom: 16px;
+        color: var(--muted);
+        opacity: 0.5;
+        align-self: flex-start;
+        padding-top: 6px;
+      }
+      .card-body {
         position: relative;
         z-index: 1;
-        color: var(--ink);
       }
       .principle-title {
-        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        font-size: clamp(1.5rem, 3vw, 2.5rem);
         font-weight: 500;
-        display: block;
-        margin-bottom: 12px;
-        letter-spacing: -0.01em;
         color: var(--ink);
-        position: relative;
-        z-index: 1;
-        line-height: 1.2;
+        letter-spacing: -0.025em;
+        line-height: 1.1;
+        margin-bottom: 10px;
+        display: block;
+        transition: letter-spacing 0.4s ease;
+      }
+      .principle-card:hover .principle-title {
+        letter-spacing: -0.04em;
       }
       .principle-body {
-        font-size: 0.9rem;
-        line-height: 1.6;
+        font-size: 0.95rem;
+        line-height: 1.65;
         color: var(--muted);
         margin: 0;
-        max-width: 340px;
+        max-width: 520px;
         position: relative;
         z-index: 1;
         text-align: left;
       }
+      /* Giant ghost number */
+      .principle-num {
+        position: absolute;
+        right: -0.04em;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: clamp(8rem, 20vw, 22rem);
+        font-weight: 800;
+        line-height: 0.85;
+        letter-spacing: -0.06em;
+        color: var(--ink);
+        opacity: 0.03;
+        pointer-events: none;
+        user-select: none;
+        display: block;
+        margin: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+      .principle-card:hover .principle-num {
+        opacity: 0.07;
+        transform: translateY(-50%) scale(1.04);
+      }
+      /* Cursor spotlight */
+      .principle-spotlight {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle 280px at var(--mx, -200%) var(--my, -200%), var(--accent) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .principle-card:hover .principle-spotlight { opacity: 0.08; }
 
       /* ── Timeline / Signal section ── */
       .thinking-signal {
@@ -388,25 +402,41 @@
       <section class="thinking-principles" aria-label="Design principles">
         <span class="principles-label">Core principles</span>
         <div class="principle-cards">
-          <div class="principle-card fade-in">
-            <span class="principle-num">01</span>
-            <span class="principle-title">Behavior before screens</span>
-            <p class="principle-body">I start with what the product needs to do, then shape the interface around it.</p>
+          <div class="principle-card">
+            <span class="card-index">01</span>
+            <div class="card-body">
+              <span class="principle-title">Behavior before screens</span>
+              <p class="principle-body">I start with what the product needs to do, then shape the interface around it.</p>
+            </div>
+            <span class="principle-num" aria-hidden="true">01</span>
+            <div class="principle-spotlight"></div>
           </div>
-          <div class="principle-card fade-in">
-            <span class="principle-num">02</span>
-            <span class="principle-title">Motion as feedback</span>
-            <p class="principle-body">Motion should explain state, direction, and consequence — not decorate.</p>
+          <div class="principle-card">
+            <span class="card-index">02</span>
+            <div class="card-body">
+              <span class="principle-title">Motion as feedback</span>
+              <p class="principle-body">Motion should explain state, direction, and consequence — not decorate.</p>
+            </div>
+            <span class="principle-num" aria-hidden="true">02</span>
+            <div class="principle-spotlight"></div>
           </div>
-          <div class="principle-card fade-in">
-            <span class="principle-num">03</span>
-            <span class="principle-title">Controlled complexity</span>
-            <p class="principle-body">Good systems are precise about when detail should appear and when it should hide.</p>
+          <div class="principle-card">
+            <span class="card-index">03</span>
+            <div class="card-body">
+              <span class="principle-title">Controlled complexity</span>
+              <p class="principle-body">Good systems are precise about when detail should appear and when it should hide.</p>
+            </div>
+            <span class="principle-num" aria-hidden="true">03</span>
+            <div class="principle-spotlight"></div>
           </div>
-          <div class="principle-card fade-in">
-            <span class="principle-num">04</span>
-            <span class="principle-title">Micro-moments matter</span>
-            <p class="principle-body">Loading, confirmation, recovery, and transitions decide how a product feels.</p>
+          <div class="principle-card">
+            <span class="card-index">04</span>
+            <div class="card-body">
+              <span class="principle-title">Micro-moments matter</span>
+              <p class="principle-body">Loading, confirmation, recovery, and transitions decide how a product feels.</p>
+            </div>
+            <span class="principle-num" aria-hidden="true">04</span>
+            <div class="principle-spotlight"></div>
           </div>
         </div>
       </section>
@@ -443,7 +473,7 @@
     </main>
 
     <footer class="sui-footer">
-      <div class="sui-footer-glow"></div>
+
       <div class="sui-footer-content">
         <div class="sui-footer-top">
           <h2>Ready to build?</h2>
@@ -523,6 +553,15 @@
           setTimeout(() => headline.classList.remove('is-glitching'), 520);
         });
       }
+
+      // ── Cursor spotlight on principle cards ──
+      document.querySelectorAll('.principle-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+          card.style.setProperty('--my', ((e.clientY - rect.top)  / rect.height * 100) + '%');
+        });
+      });
 
       // ── Scramble on hover for principle card titles ──
       const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#%&!?';

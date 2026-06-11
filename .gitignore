@@ -2,3 +2,6 @@ _source/
 assets/extracted/
 assets/portfolio-pages/
 .DS_Store
+*.swp
+Thumbs.db
+.claude/

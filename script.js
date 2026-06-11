@@ -255,10 +255,11 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
 // Header State
 const setHeaderState = () => {
   if (!header) return;
-  header.classList.toggle("is-scrolled", window.scrollY > window.innerHeight * 0.35);
+  header.classList.toggle("is-scrolled", window.scrollY > 40);
 };
 window.addEventListener("scroll", setHeaderState, { passive: true });
 setHeaderState();
+
 
 // Page Transitions
 document.querySelectorAll("a[href]").forEach((link) => {
@@ -274,7 +275,6 @@ document.querySelectorAll("a[href]").forEach((link) => {
 
 // Footer glitch — random resolve, 0.3–0.5s total
 const GLITCH_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ01';
-const GLITCH_COLOR = '#7aab68';
 
 document.querySelectorAll('.footer-col a').forEach(link => {
   const original = link.innerText;
@@ -308,7 +308,7 @@ document.querySelectorAll('.footer-col a').forEach(link => {
         html += `<span style="color:rgba(255,255,255,0.9)">${original[i]}</span>`;
       } else {
         const r = GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-        html += `<span style="color:${GLITCH_COLOR}">${r}</span>`;
+        html += `<span style="color:${getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()}">${r}</span>`;
       }
     }
     link.innerHTML = html;
