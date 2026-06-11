@@ -301,14 +301,19 @@ document.querySelectorAll('.footer-col a').forEach(link => {
       resolvedSet.add(pick);
     }
 
+    // read theme colors once per tick so both light/dark modes stay correct
+    const rootStyle = getComputedStyle(document.documentElement);
+    const inkColor = rootStyle.getPropertyValue('--ink').trim();
+    const accentColor = rootStyle.getPropertyValue('--accent').trim();
+
     let html = '';
     for (let i = 0; i < original.length; i++) {
       if (original[i] === ' ') { html += ' '; continue; }
       if (resolvedSet.has(i)) {
-        html += `<span style="color:rgba(255,255,255,0.9)">${original[i]}</span>`;
+        html += `<span style="color:${inkColor}">${original[i]}</span>`;
       } else {
         const r = GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-        html += `<span style="color:${getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()}">${r}</span>`;
+        html += `<span style="color:${accentColor}">${r}</span>`;
       }
     }
     link.innerHTML = html;
