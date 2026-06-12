@@ -8,7 +8,8 @@ const loader = document.querySelector(".page-loader");
 const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    // dark is the default: anything except an explicit "light" counts as dark
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     // Trigger spin animation
     themeToggle.classList.add('is-switching');
     setTimeout(() => {
@@ -386,6 +387,22 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "Intersect
   }, { threshold: 0.18 });
   revealTargets.forEach((target) => revealObserver.observe(target));
 }
+
+// Footer: live New Delhi (IST) clock + back-to-top
+(function () {
+  const clock = document.getElementById('local-time');
+  if (clock) {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kolkata',
+    });
+    const tick = () => { clock.textContent = fmt.format(new Date()) + ' IST'; };
+    tick();
+    setInterval(tick, 10000);
+  }
+  document.querySelectorAll('.back-to-top').forEach((btn) => {
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  });
+})();
 
 // Count Up Observer
 if ("IntersectionObserver" in window) {
