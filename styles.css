@@ -279,6 +279,35 @@ body.has-loader:not(.has-loaded-before) .page-shell {
   gap: clamp(16px, 3vw, 34px);
 }
 
+/* ── Hamburger toggle (mobile only) ── */
+.nav-toggle {
+  display: none;
+  position: relative;
+  width: 30px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: none !important;
+  z-index: 130;
+}
+.nav-toggle-bar {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ink);
+  transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.4s ease;
+}
+.nav-toggle-bar:nth-child(1) { top: 6px; }
+.nav-toggle-bar:nth-child(2) { top: 14px; }
+/* open → X */
+.nav-toggle.is-open .nav-toggle-bar:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+.nav-toggle.is-open .nav-toggle-bar:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+
 .nav a,
 .hero-ctas a,
 .contact-links a,
@@ -1038,17 +1067,58 @@ dd {
 
 @media (max-width: 620px) {
   .site-header {
-    grid-template-columns: 1fr;
-    gap: 14px;
     padding-top: 16px;
     padding-bottom: 16px;
   }
 
-
-  .nav {
-    justify-content: flex-start;
-    gap: 18px;
+  /* brand stays above the overlay so the bar reads as persistent */
+  .brand {
+    position: relative;
+    z-index: 125;
   }
+
+  .nav-toggle { display: block; }
+
+  /* full-screen overlay menu */
+  .nav {
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(18px, 4.5vh, 38px);
+    background: var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 120;
+  }
+  .nav.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .nav a {
+    width: auto;
+    font-size: clamp(1.9rem, 9vw, 2.7rem);
+    text-transform: none;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .nav.is-open a {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  .nav.is-open a:nth-child(1) { transition-delay: 0.10s; }
+  .nav.is-open a:nth-child(2) { transition-delay: 0.17s; }
+  .nav.is-open a:nth-child(3) { transition-delay: 0.24s; }
+  .nav.is-open a:nth-child(4) { transition-delay: 0.31s; }
+  /* underline sits closer under the large links */
+  .nav a::after { bottom: -6px; }
+
+  body.nav-open { overflow: hidden; }
 
   .hero,
   .page-section,

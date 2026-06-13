@@ -20,6 +20,22 @@ if (themeToggle) {
   });
 }
 
+// ── Mobile nav (hamburger overlay) ──
+const navToggle = document.getElementById('nav-toggle');
+const primaryNav = document.getElementById('primary-nav');
+if (navToggle && primaryNav) {
+  const setNav = (open) => {
+    navToggle.classList.toggle('is-open', open);
+    primaryNav.classList.toggle('is-open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.classList.toggle('nav-open', open);
+  };
+  navToggle.addEventListener('click', () => setNav(!navToggle.classList.contains('is-open')));
+  primaryNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setNav(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const pageLoader = document.querySelector('.page-loader');
   const loaderCount = document.querySelector('.loader-count');
